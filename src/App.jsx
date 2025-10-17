@@ -1,8 +1,10 @@
-import { usePage } from "./layout/PageContext";
-
+import { Routes, Route } from "react-router-dom"
+// components
+import Layout from "./layout/Layout";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ActivitiesPage from "./activities/ActivitiesPage";
+import ActivityDetails from "./activities/ActivityDetails";
 import Error404 from "./Error404.jsx";
 
 /**
@@ -11,11 +13,15 @@ import Error404 from "./Error404.jsx";
  * account will be able to upload and manage their own activities.
  */
 export default function App() {
-  const { page } = usePage();
-
-  if (page === "register") return <Register />;
-  if (page === "login") return <Login />;
-  if (page === "activities") return <ActivitiesPage />;
-
-  return <Error404 />;
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<ActivitiesPage />} />
+        <Route path="activities/:id" element={<ActivityDetails />} />
+        <Route path="auth/register" element={<Register />} />
+        <Route path="auth/login" element={<Login />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
+    </Routes>
+  );
 }
